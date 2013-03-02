@@ -1,6 +1,6 @@
 # Navigation Controller jQuery Plugin
 
-version 0.1.0
+version 0.2.0
 
 
 ## Features
@@ -72,7 +72,9 @@ and
 * `closeSelector`: the jQuery selector of the close button elements; default: `[data-rel=close]`
 * `getId`: function that is called to retrieve the id for each trigger; by default the attribute "data-pane" is queried (and its value is stored as id)
 * `getPane`: function that is called to retrieve the pane for each id; by default used this selector: ".pane[data-name='" + id + "']"
+* `mayShow`: delegate function that defines if the navigation pane may be shown; by default returns true
 * `show`: function that is called when showing the navigation pane; by default removes class "hidden" from the pane and add class "active" to the trigger
+* `mayHide`: delegate function that defines if the navigation pane may be hidden; by default returns true
 * `hide`: function that is called when hiding the navigation pane; by default adds class "hidden" to the pane and removes class "active" from the trigger
 * `inDelay`: delay before opening the pane, in milleseconds; default 0
 * `outDelay`: delay before closing the pane, in milleseconds; default 0

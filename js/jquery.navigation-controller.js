@@ -1,6 +1,6 @@
 /*
 Navigation controller plugin for jquery
-Version 0.1.0
+Version 0.2.0
 (c) 2013 Arthur Clemens arthur@visiblearea.com
 Released under MIT licence
 
@@ -28,6 +28,12 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
                 $pane.addClass("hidden");
                 $trigger.removeClass("active");
             },
+            mayShow: function ($el, $pane, $trigger, $currentPane, $currentTrigger) {
+                return true;
+            },
+            mayHide: function ($el, $pane, $trigger) {
+                return true;
+            },
             inDelay: 0,
             outDelay: 0
         };
@@ -48,6 +54,8 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
             activeFunc,
             showFunc,
             hideFunc,
+            mayShowFunc,
+            mayHideFunc,
             triggerSelector,
             closeSelector,
             inDelay,
@@ -67,7 +75,8 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
                 $currentPane,
                 active,
                 $trigger,
-                $pane;
+                $pane,
+                mayShow;
 
             if (currentId === id) {
                 return;
@@ -75,11 +84,20 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
 
             clearTimeout(showTimer);
 
-            if (currentId) {
+            if (currentId !== undefined) {
                 $currentTrigger = ids[currentId].trigger;
                 $currentPane = ids[currentId].pane;
                 active = ids[currentId].active;
+            }
 
+            if (mayShowFunc) {
+                mayShow = mayShowFunc($el, $currentPane, $currentTrigger);
+                if (!mayShow) {
+                    return;
+                }
+            }
+
+            if (currentId !== undefined) {
                 if ($currentPane && active) {
                     if (hideFunc !== undefined) {
                         hideFunc($el, $currentPane, $currentTrigger);
@@ -100,7 +118,8 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
 
         hideNow = function () {
             var $pane,
-                $trigger;
+                $trigger,
+                mayHide;
 
             if (currentId === undefined) {
                 return;
@@ -114,6 +133,13 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
 
             $pane = ids[currentId].pane;
             $trigger = ids[currentId].trigger;
+
+            if (mayHideFunc) {
+                mayHide = mayHideFunc($el, $pane, $trigger);
+                if (!mayHide) {
+                    return;
+                }
+            }
 
             if (hideFunc !== undefined) {
                 hideFunc($el, $pane, $trigger);
@@ -146,6 +172,8 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
         activeFunc = opts.active;
         showFunc = opts.show;
         hideFunc = opts.hide;
+        mayShowFunc = opts.mayShow;
+        mayHideFunc = opts.mayHide;
         triggerSelector = opts.triggerSelector;
         closeSelector = opts.closeSelector;
         inDelay = opts.inDelay;
