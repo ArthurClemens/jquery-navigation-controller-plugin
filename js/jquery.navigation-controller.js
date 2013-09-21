@@ -1,6 +1,6 @@
 /*
 Navigation controller plugin for jquery
-Version 0.2.0
+Version 0.2.1
 (c) 2013 Arthur Clemens arthur@visiblearea.com
 Released under MIT licence
 
