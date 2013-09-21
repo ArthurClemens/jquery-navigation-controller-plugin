@@ -38,7 +38,7 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
             outDelay: 0
         };
 
-    init = function (options, $el) {
+    init = function (options, el) {
         var opts,
             ids, // associative list of objects { trigger: $jQueryObject, pane: $jQueryObject, shown: Boolean  }
             currentId,
@@ -59,7 +59,8 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
             triggerSelector,
             closeSelector,
             inDelay,
-            outDelay;
+            outDelay,
+            $el = $(el);
 
         registerId = function (id, $trigger, $pane) {
             ids[id] = {
@@ -210,7 +211,7 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
             hide();
         });
 
-        $(closeSelector, $el).live("click", function (e) {
+        $el.on("click", closeSelector, function (e) {
             e.preventDefault();
             // store click location for Firefox
             clickPos = {x: e.clientX, y: e.clientY};
@@ -232,4 +233,4 @@ https://github.com/ArthurClemens/jquery-navigation-controller-plugin
 
 }(jQuery));
 
-/*jslint regexp: true, browser: true */
+/*jslint browser: true, regexp: true, unparam: false */
